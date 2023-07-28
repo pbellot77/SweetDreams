@@ -7,6 +7,7 @@
 
 import Foundation
 
+//--Model for Meal Detail
 struct MealDetailResponse: Codable {
   let meals: [MealDetail]
 }
@@ -61,16 +62,19 @@ struct MealDetail: Codable, Identifiable {
   let strMeasure20: String?
   
   var ingredients: [String] {
-    var ingredients: [String] = []
     let allIngredients = [strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10, strIngredient11, strIngredient12, strIngredient13, strIngredient14, strIngredient15, strIngredient16, strIngredient17, strIngredient18, strIngredient19, strIngredient20]
+    
     let allMeasures = [strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5, strMeasure6, strMeasure7, strMeasure8, strMeasure9, strMeasure10, strMeasure11, strMeasure12, strMeasure13, strMeasure14, strMeasure15, strMeasure16, strMeasure17, strMeasure18, strMeasure19, strMeasure20]
     
-    for index in 0..<allIngredients.count {
-      if let ingredient = allIngredients[index], !ingredient.isEmpty,
-         let measure = allMeasures[index], !measure.isEmpty {
-        ingredients.append("\(measure) of \(ingredient)".trimmingCharacters(in: .whitespacesAndNewlines))
+    let pairs = zip(allIngredients, allMeasures)
+    
+    return pairs.compactMap { ingredient, measure in
+      if let ingredient = ingredient, !ingredient.isEmpty,
+         let measure = measure, !measure.isEmpty {
+        return "\(measure) of \(ingredient)".trimmingCharacters(in: .whitespacesAndNewlines)
       }
+      return nil
     }
-    return ingredients
   }
+
 }

@@ -6,40 +6,54 @@
 //
 
 import Foundation
+import Combine
 
 class MealDetailViewModel: ObservableObject {
-  @Published var meal: MealDetail?
-  @Published var error: Error?
+    @Published var meal: MealDetail?
+    @Published var error: APIError?
   
-  let idMeal: String
-  
-  init(mealId: String) {
-    self.idMeal = mealId
-  }
-  
-  func fetchMealDetail() {
-    let urlString = "https://themealdb.com/api/json/v1/1/lookup.php?i=\(idMeal)"
-    guard let url = URL(string: urlString) else { return }
+    let idMeal: String
     
-    let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-      if let error = error {
-        DispatchQueue.main.async {
-          self.error = error
-        }
-        return
-      }
-      
-      do {
-        let mealDetailResponse = try JSONDecoder().decode(MealDetailResponse.self, from: data!)
-        DispatchQueue.main.async {
-          self.meal = mealDetailResponse.meals[0]
-        }
-      } catch {
-        DispatchQueue.main.async {
-          self.error = error
-        }
-      }
+    init(mealId: String) {
+        self.idMeal = mealId
     }
-    task.resume()
-  }
+    
+    func fetchMealDetail() {
+        let urlString = "https://themealdb.com/api/json/v1/1/lookup.php?i=\(idMeal)"
+        guard let url = URL(string: urlString) else {
+            DispatchQueue.main.async {
+                self.error = .urlNotValid
+            }
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+          if error != nil {
+                DispatchQueue.main.async {
+                    self.error = .unknown
+                }
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                DispatchQueue.main.async {
+                    self.error = .invalidResponse
+                }
+                return
+            }
+            
+            do {
+                let mealDetailResponse = try JSONDecoder().decode(MealDetailResponse.self, from: data!)
+                DispatchQueue.main.async {
+                    self.meal = mealDetailResponse.meals.first
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.error = .unknown
+                }
+            }
+        }
+        task.resume()
+    }
 }

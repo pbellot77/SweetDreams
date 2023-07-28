@@ -7,13 +7,11 @@
 
 import Foundation
 
-// Individual meal
+//--Model for Meal view
 struct Meal: Codable, Identifiable {
-  
   let idMeal: String
   let strMeal: String
   let strMealThumb: String
-  let strInstructions: String?
   
   var id: String {
     return idMeal

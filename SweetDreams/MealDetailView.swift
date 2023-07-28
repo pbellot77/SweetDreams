@@ -19,6 +19,7 @@ struct MealDetailView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .overlay(Color.black.opacity(0.2))
+                            .cornerRadius(20)
       
                     } placeholder: {
                         ProgressView()
@@ -27,9 +28,10 @@ struct MealDetailView: View {
                     .edgesIgnoringSafeArea(.all)
                     .overlay(
                         Rectangle()
-                          .fill(LinearGradient(gradient: Gradient(colors: [Color.clear, Color.black]), startPoint: .center, endPoint: .bottom))
+                          .fill(LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.1), Color.black.opacity(0.2)]), startPoint: .center, endPoint: .bottom))
                     )
-                    .shadow(radius: 5)
+                    .cornerRadius(20)
+                    .shadow(radius: 6)
 
                     Text(meal.strMeal)
                         .font(.largeTitle)
@@ -68,7 +70,7 @@ struct MealDetailView: View {
 
 struct MealDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        MealDetailView(viewModel: MealDetailViewModel(mealId: "53049"))
+        MealDetailView(viewModel: MealDetailViewModel(mealId: "52893"))
     }
 }
 
