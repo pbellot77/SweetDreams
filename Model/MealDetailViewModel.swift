@@ -50,7 +50,7 @@ class MealDetailViewModel: ObservableObject {
                 }
             } catch {
                 DispatchQueue.main.async {
-                    self.error = .unknown
+                    self.error = .noData
                 }
             }
         }

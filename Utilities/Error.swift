@@ -12,6 +12,7 @@ enum APIError: Error, LocalizedError {
     case unknown
     case invalidResponse
     case urlNotValid
+    case noData
     
     var errorDescription: String? {
         switch self {
@@ -21,6 +22,8 @@ enum APIError: Error, LocalizedError {
             return "Invalid response"
         case .urlNotValid:
             return "URL not valid"
+        case .noData:
+          return "There is no data"
         }
     }
 }

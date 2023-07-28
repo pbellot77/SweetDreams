@@ -5,6 +5,10 @@
 //  Created by Patrick Bellot on 7/27/23.
 //
 
+/** This was my solution to the two different api's. Two different models for each request.
+      This could be refactored with generics in the future.
+ **/
+
 import Foundation
 
 //--Model for Meal Detail
@@ -61,6 +65,8 @@ struct MealDetail: Codable, Identifiable {
   let strMeasure19: String?
   let strMeasure20: String?
   
+  
+  // Computed property to that adds properties together in an array, checks nil values, and trims out unneccessary properties
   var ingredients: [String] {
     let allIngredients = [strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10, strIngredient11, strIngredient12, strIngredient13, strIngredient14, strIngredient15, strIngredient16, strIngredient17, strIngredient18, strIngredient19, strIngredient20]
     

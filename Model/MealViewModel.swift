@@ -28,9 +28,17 @@ class MealViewModel: ObservableObject {
         return
       }
       
+      guard let httpResponse = response as? HTTPURLResponse,
+            (200...299).contains(httpResponse.statusCode) else {
+          DispatchQueue.main.async {
+              self.error = .invalidResponse
+          }
+          return
+      }
+      
       guard let data = data else {
         DispatchQueue.main.async {
-          self.error = .invalidResponse
+          self.error = .noData
         }
         return
       }
@@ -43,7 +51,7 @@ class MealViewModel: ObservableObject {
         }
       } catch {
         DispatchQueue.main.async {
-          self.error = .invalidResponse
+          self.error = .noData
         }
       }
     }.resume()

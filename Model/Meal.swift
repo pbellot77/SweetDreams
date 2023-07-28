@@ -13,6 +13,8 @@ struct Meal: Codable, Identifiable {
   let strMeal: String
   let strMealThumb: String
   
+  
+//--To conform to the Identifiable protocol
   var id: String {
     return idMeal
   }
