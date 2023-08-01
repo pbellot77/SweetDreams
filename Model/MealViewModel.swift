@@ -7,53 +7,34 @@
 
 import Foundation
 import Combine
-import UIKit
 
 class MealViewModel: ObservableObject {
-  @Published var meals = [Meal]()
-  @Published var selectedMeal: Meal? = nil
-  @Published var error: APIError? = nil
-  
-  func fetchMeals() {
-    guard let url = URL(string: "https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert") else {
-      self.error = .urlNotValid
-      return
+    @Published var meals = [Meal]()
+    @Published var error: APIError? = nil
+    
+    private let networkManager: NetworkManagerProtocol
+    
+    init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
+        self.networkManager = networkManager
     }
     
-    URLSession.shared.dataTask(with: url) { (data, response, error) in
-      if let _ = error {
-        DispatchQueue.main.async {
-          self.error = .unknown
-        }
-        return
+  func fetchMeals() async {
+      guard let url = URL(string: "https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert") else {
+          self.error = .urlNotValid
+          return
       }
-      
-      guard let httpResponse = response as? HTTPURLResponse,
-            (200...299).contains(httpResponse.statusCode) else {
+
+      do {
+          let mealData: MealResponse = try await networkManager.fetchData(from: url)
+          DispatchQueue.main.async {
+              self.meals = mealData.meals
+              self.error = nil
+          }
+      } catch {
           DispatchQueue.main.async {
               self.error = .invalidResponse
           }
-          return
       }
-      
-      guard let data = data else {
-        DispatchQueue.main.async {
-          self.error = .noData
-        }
-        return
-      }
-      
-      do {
-        let mealData = try JSONDecoder().decode(MealResponse.self, from: data)
-        DispatchQueue.main.async {
-          self.meals = mealData.meals
-          self.error = nil
-        }
-      } catch {
-        DispatchQueue.main.async {
-          self.error = .noData
-        }
-      }
-    }.resume()
   }
 }
+

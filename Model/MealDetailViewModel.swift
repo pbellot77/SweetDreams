@@ -10,50 +10,28 @@ import Combine
 
 class MealDetailViewModel: ObservableObject {
     @Published var meal: MealDetail?
-    @Published var error: APIError?
-  
-    let idMeal: String
+    @Published var error: APIError? = nil
     
-    init(mealId: String) {
+    private let networkManager: NetworkManagerProtocol
+    private let idMeal: String
+    
+    init(mealId: String, networkManager: NetworkManagerProtocol = NetworkManager.shared) {
         self.idMeal = mealId
+        self.networkManager = networkManager
     }
     
-    func fetchMealDetail() {
-        let urlString = "https://themealdb.com/api/json/v1/1/lookup.php?i=\(idMeal)"
-        guard let url = URL(string: urlString) else {
-            DispatchQueue.main.async {
-                self.error = .urlNotValid
-            }
+    func fetchMealDetail() async {
+        guard let url = URL(string: "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(idMeal)") else {
+            self.error = .urlNotValid
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-          if error != nil {
-                DispatchQueue.main.async {
-                    self.error = .unknown
-                }
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                DispatchQueue.main.async {
-                    self.error = .invalidResponse
-                }
-                return
-            }
-            
-            do {
-                let mealDetailResponse = try JSONDecoder().decode(MealDetailResponse.self, from: data!)
-                DispatchQueue.main.async {
-                    self.meal = mealDetailResponse.meals.first
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    self.error = .noData
-                }
-            }
+        do {
+            let mealDetailResponse = try await networkManager.fetchData(from: url) as MealDetailResponse
+            self.meal = mealDetailResponse.meals.first
+            self.error = nil
+        } catch {
+            self.error = error as? APIError ?? APIError.unknown
         }
-        task.resume()
     }
 }

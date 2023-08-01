@@ -26,14 +26,16 @@ struct MealView: View {
             .clipped()
             .cornerRadius(10)
             .shadow(radius: 5)
-          
+            
             Text(meal.strMeal)
               .font(.headline)
           }
         }
       }
       .navigationTitle("Desserts")
-      .onAppear(perform: viewModel.fetchMeals)
+      .task {
+        await viewModel.fetchMeals() // Use the task to fetch meals asynchronously
+      }
       .alert(isPresented: Binding<Bool>.constant(viewModel.error != nil), content: {
         Alert(title: Text("Error"), message: Text(viewModel.error?.localizedDescription ?? "Unknown Error"), dismissButton: .default(Text("OK")))
       })

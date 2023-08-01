@@ -20,7 +20,7 @@ struct MealDetailView: View {
                             .aspectRatio(contentMode: .fit)
                             .overlay(Color.black.opacity(0.2))
                             .cornerRadius(20)
-      
+
                     } placeholder: {
                         ProgressView()
                     }
@@ -37,16 +37,16 @@ struct MealDetailView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding(.bottom)
-                  
-                  Text("Ingredients")
-                      .font(.title2)
-                      .fontWeight(.bold)
-                      .padding(.vertical)
 
-                  ForEach(meal.ingredients, id: \.self) { ingredient in
-                      Text(ingredient)
-                          .font(.body)
-                  }
+                    Text("Ingredients")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .padding(.vertical)
+
+                    ForEach(meal.ingredients, id: \.self) { ingredient in
+                        Text(ingredient)
+                            .font(.body)
+                    }
 
                     Text("Instructions")
                         .font(.title2)
@@ -55,13 +55,17 @@ struct MealDetailView: View {
 
                     Text(meal.strInstructions)
                         .font(.body)
-                        .foregroundColor(.black)             
+                        .foregroundColor(.black)
+                } else {
+                    ProgressView()
                 }
             }
             .padding()
             .background(Color.white)
         }
-        .onAppear(perform: viewModel.fetchMealDetail)
+        .task {
+            await viewModel.fetchMealDetail() // Use the task to fetch meal details asynchronously
+        }
         .alert(isPresented: Binding<Bool>.constant(viewModel.error != nil), content: {
             Alert(title: Text("Error"), message: Text(viewModel.error?.localizedDescription ?? "Unknown Error"), dismissButton: .default(Text("OK")))
         })
@@ -73,5 +77,3 @@ struct MealDetailView_Previews: PreviewProvider {
         MealDetailView(viewModel: MealDetailViewModel(mealId: "52893"))
     }
 }
-
-

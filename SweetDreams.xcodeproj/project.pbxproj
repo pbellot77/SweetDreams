@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BAB41EE72A7976280033EEF7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB41EE62A7976280033EEF7 /* NetworkManager.swift */; };
+		BAB41EE92A797D280033EEF7 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB41EE82A797D280033EEF7 /* MockNetworkManager.swift */; };
+		BAB41EEB2A79808A0033EEF7 /* MealViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB41EEA2A79808A0033EEF7 /* MealViewModelTests.swift */; };
+		BAB41EED2A7981220033EEF7 /* MealDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB41EEC2A7981220033EEF7 /* MealDetailViewModelTests.swift */; };
 		BAE37DFE2A72D5BE00F8E30E /* SweetDreamsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE37DFD2A72D5BE00F8E30E /* SweetDreamsApp.swift */; };
 		BAE37E002A72D5BE00F8E30E /* MealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE37DFF2A72D5BE00F8E30E /* MealView.swift */; };
 		BAE37E022A72D5C200F8E30E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAE37E012A72D5C200F8E30E /* Assets.xcassets */; };
@@ -40,6 +44,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BAB41EE62A7976280033EEF7 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		BAB41EE82A797D280033EEF7 /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
+		BAB41EEA2A79808A0033EEF7 /* MealViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealViewModelTests.swift; sourceTree = "<group>"; };
+		BAB41EEC2A7981220033EEF7 /* MealDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetailViewModelTests.swift; sourceTree = "<group>"; };
 		BAE37DFA2A72D5BE00F8E30E /* SweetDreams.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SweetDreams.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE37DFD2A72D5BE00F8E30E /* SweetDreamsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweetDreamsApp.swift; sourceTree = "<group>"; };
 		BAE37DFF2A72D5BE00F8E30E /* MealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealView.swift; sourceTree = "<group>"; };
@@ -83,9 +91,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BAB41EE52A7976050033EEF7 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BAB41EE62A7976280033EEF7 /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		BAE37DF12A72D5BE00F8E30E = {
 			isa = PBXGroup;
 			children = (
+				BAB41EE52A7976050033EEF7 /* Network */,
 				BAE37E2C2A72DDC300F8E30E /* Utilities */,
 				BAE37E272A72D5FB00F8E30E /* Model */,
 				BAE37DFC2A72D5BE00F8E30E /* SweetDreams */,
@@ -129,6 +146,9 @@
 			isa = PBXGroup;
 			children = (
 				BAE37E0E2A72D5C300F8E30E /* SweetDreamsTests.swift */,
+				BAB41EE82A797D280033EEF7 /* MockNetworkManager.swift */,
+				BAB41EEA2A79808A0033EEF7 /* MealViewModelTests.swift */,
+				BAB41EEC2A7981220033EEF7 /* MealDetailViewModelTests.swift */,
 			);
 			path = SweetDreamsTests;
 			sourceTree = "<group>";
@@ -291,6 +311,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAB41EE72A7976280033EEF7 /* NetworkManager.swift in Sources */,
 				BAE37E302A72E6F300F8E30E /* MealDetailView.swift in Sources */,
 				BAE37E002A72D5BE00F8E30E /* MealView.swift in Sources */,
 				BAE37E292A72D62B00F8E30E /* Meal.swift in Sources */,
@@ -306,7 +327,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAB41EE92A797D280033EEF7 /* MockNetworkManager.swift in Sources */,
 				BAE37E0F2A72D5C300F8E30E /* SweetDreamsTests.swift in Sources */,
+				BAB41EED2A7981220033EEF7 /* MealDetailViewModelTests.swift in Sources */,
+				BAB41EEB2A79808A0033EEF7 /* MealViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
